@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="nav-bar">
+                <div class="logo">
+                    <img src="../images/logo.png" width="125px">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="http://localhost:5000/login">Account</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="container">
+            <div class="shipping-form">
+                <h2>Shipping Information</h2>
+                <form action="/order" method="POST">
+                    <ul>
+                        <li class="first-name">
+                            <label for="name">First name</label>
+                            <input type="text" name="first-name" id="first-name" placeholder="First Name">
+                        </li>
+                        <li class="last-name">
+                            <label for="last-name">Last name</label>
+                            <input type="text" name="last-name" id="last-name" placeholder="Last Name"><br>
+                        </li>
+                        <li class="zip-code">
+                            <label for="zip-code">Zip code</label>
+                            <input type="text" name="zip-code" id="zip-code" placeholder="Example: 1456643"><br>
+                        </li>
+                        <li class="address">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" id="address"><br>
+                        </li>
+                        <li class="phone-number">
+                            <label for="phone-number">Phone number</label>
+                            <input type="text" id="phone-number"><br>
+                        </li>
+                        <li class="email">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email"><br>
+                        </li>
+                        <li class="password">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password"><br>
+                        </li>
+                        <hr>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <label for="shipping-method">Shipping method</label>
+                                    <td><input type="radio" id="shipping-method"><span>Unspecified</span></td>
+                                    <td>Scheduled to be shipped<br> from March 4th to March 6th</td>
+                                    <td>$2.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="shipping-method"><span>Scheduled</span></td>
+                                    <td>Please select the dates</td>
+                                    <td>$2.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="shipping-method"><span>Same-day</span></td>
+                                    <td>At the earliest March 3rd, 6pm</td>
+                                    <td>$5.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table class="payment-method">
+                            <tbody>
+                                <tr>
+                                    <label for="payment-method" id="payment-method">Payment method</label>
+                                    <td><input type="radio" id="payment-method"><span>Credit card</span></td>
+                                    <td>$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="payment-method"><span>Cash on delivery</span></td>
+                                    <td>$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="payment-method"><span>LINE Pay</span></td>
+                                    <td>$0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ul>
+                    <div class="purchase-btn">
+                        <a href="" class="btn">Purchase</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <script src="script.js"></script>
+    <script src="products.js"></script>
+    <script src="payment.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</body>
+</html>
