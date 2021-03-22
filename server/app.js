@@ -4,11 +4,11 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import path from 'path'
-import md5 from 'md5'
-import mysql from 'mysql2/promise'
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser'
 import Routes from './Routes.js'
+import flash from 'connect-flash'
+import session from 'express-session'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const routes = new Routes();
@@ -21,20 +21,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+}))
+
+app.use(flash())
+
 const publicDirectory = path.join(__dirname, '../public');
 app.use(express.static(publicDirectory));
 
-
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-
-const con = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DATABASE,
-    port: process.env.DB_PORT
-});
 
 // ルーティング
 // app.get('/getAll', (req, res) => {

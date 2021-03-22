@@ -21,7 +21,7 @@ class UserManager {
         let hashedPassword = md5(myUser.password)
         let count = await this.Repository.getUserPasswordMatchCount(myUser.email, hashedPassword)
 
-        // true/falseを返すために必要
+        // return true/false
         return count == 1 
     }
 
@@ -35,6 +35,21 @@ class UserManager {
             return myUser
         }
         myUser.userId = await this.Repository.getUserId(myUser.email)
+        return myUser
+    }
+
+    async validateRegister(myUser) {
+        let hashedPassword = md5(myUser.password)
+        let count = await this.Repository.checkIsRegistered(myUser.email, hashedPassword)
+
+        return count == 1
+    }
+
+    async registerNewUser(myUser) {
+        let hashedPassword = md5(myUser.password)
+        
+        await this.Repository.registerUserToDB(myUser.name, myUser.email, hashedPassword)
+        myUser._userId = await this.Repository.getUserId(myUser.email)
         return myUser
     }
 }

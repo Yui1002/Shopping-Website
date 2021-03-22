@@ -2,6 +2,7 @@
 
 import UserController from './Controllers/UserController.js'
 import HttpConstants from './Models/HttpConstants.js'
+import ErrorConstants from './Models/ErrorConstants.js'
 
 /**
  * Class Routes
@@ -29,17 +30,26 @@ class Routes {
             res.render('../views/login.ejs')
         });
 
+        app.route('/register').get((req, res) => {
+            res.render('../views/register.ejs')
+        })
+
         app.route('/login').post((async (req, res, next) => {
-            // console.log(req);
+
+            const LoginPage = '../views/login.ejs';
             let response = await this.UserController.validateLogin(req)
-            // console.log(response);
+        
             if (response.httpStatus == HttpConstants.HTTP_STATUS.BAD_REQUEST) {
 
-                res.status(HttpConstants.HTTP_STATUS.BAD_REQUEST)
+                res.status(HttpConstants.HTTP_STATUS.BAD_REQUEST).render(LoginPage, {
+                    message: ErrorConstants.ERROR_TYPE.NOT_ENTERED
+                })
 
             } else if (response.httpStatus == HttpConstants.HTTP_STATUS.UNAUTHORIZED) {
 
-                res.status(HttpConstants.HTTP_STATUS.UNAUTHORIZED).render('../views/login.ejs')
+                res.status(HttpConstants.HTTP_STATUS.UNAUTHORIZED).render(LoginPage, {
+                    message: ErrorConstants.ERROR_TYPE.NOT_EXIST
+                })
 
             } else if (response.httpStatus == HttpConstants.HTTP_STATUS.OK) {
                 
@@ -49,14 +59,45 @@ class Routes {
 
             } else {
                 //treat as bad request
-                res.status(HttpConstants.HTTP_STATUS.BAD_REQUEST)
+                res.status(HttpConstants.HTTP_STATUS.BAD_REQUEST).render(LoginPage)
             }
         }))
 
-        app.route('/register').post(async (req, res, next) => {
-            let response = await this.UserController.validateRegister(req)
-        })
+        app.route('/register').post((async (req, res, next) => {
+
+            const registerPage = '../views/register.ejs'
+            let response = await this.UserController.validateRegister(req);
+            
+            if(response.errorType === ErrorConstants.ERROR_TYPE.NOT_ENTERED) {
+
+                res.render(registerPage, {
+                    message: ErrorConstants.ERROR_TYPE.NOT_ENTERED
+                })
+
+            } else if (response.errorType === ErrorConstants.ERROR_TYPE.NOT_MATCH_PASSWORD) {
+
+                res.render(registerPage, {
+                    message: ErrorConstants.ERROR_TYPE.NOT_MATCH_PASSWORD
+                }) 
+
+            } else if(response.errorType === ErrorConstants.ERROR_TYPE.SHORT_PASSWORD) {
+
+                res.render(registerPage, {
+                    message: ErrorConstants.ERROR_TYPE.SHORT_PASSWORD
+                }) 
+
+            } else if (response.errorType === ErrorConstants.ERROR_TYPE.ALREADY_REGISTERED) {
+                
+                res.render(registerPage, {
+                    message: ErrorConstants.ERROR_TYPE.ALREADY_REGISTERED
+                })
+
+            } else {
+                res.redirect('/login')
+            }
+        }))
     }
+
 
     /**
      * Private method to get the cookie options for jwt

@@ -1,10 +1,10 @@
 'use strict'
 
 import LoginConstants from '../Models/LoginConstants.js'
+import ErrorConstants from '../Models/ErrorConstants.js'
 
 class UserValidator {
     constructor() {
-
     }
 
     isValidRequest(requestType, req) {
@@ -18,15 +18,7 @@ class UserValidator {
     }
 
     isValidLoginRequest(req) {
-        if (!req) {
-            return false
-        }
-
-        if (!req.email || req.email.length == 0) {
-            return false
-        }
-
-        if (!req.password || req.password.length == 0) {
+        if(!req.email || !req.password) {
             return false
         }
 
@@ -34,11 +26,25 @@ class UserValidator {
     }
 
     isValidRegisterRequest(req) {
-        if(!req) {
-            return false
+
+        if(!req.name || !req.email || !req.password || !req.passwordConfirm) {
+            let error = ErrorConstants.ERROR_TYPE.NOT_ENTERED
+            return error
         }
-        z
+
+        if(req.password !== req.passwordConfirm) {
+            let error = ErrorConstants.ERROR_TYPE.NOT_MATCH_PASSWORD
+            return error
+        }
+
+        if(req.password.length < 6) {
+            let error = ErrorConstants.ERROR_TYPE.SHORT_PASSWORD
+            return error
+        }
+
+        return true
     }
+
 }
 
 export default UserValidator;

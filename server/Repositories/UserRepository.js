@@ -71,7 +71,7 @@ class UserRepository {
             return 0
         }
     }
-
+     
     /**
      * Get the userId of user based on email
      * @param {string} email
@@ -91,6 +91,42 @@ class UserRepository {
 
         } catch (exception) {
             console.log("getUserId threw an exception")
+            console.log(exception)
+        }
+    }
+
+    async checkIsRegistered(email, password) {
+        let query = "SELECT COUNT(*) AS count FROM users WHERE email = ? AND password = ?;"
+
+        try {
+            let con = await this.getConnection()
+
+            let [rows, fields] = await con.query(query, [email, password])
+
+            await this.endConnection()
+
+            return rows[0].count
+
+        } catch(exception) {
+            console.log("checkIsRegistered threw an exception")
+            console.log(exception)
+        }
+    }
+
+    async registerUserToDB(name, email, password) {
+        let query = "INSERT INTO users (name, email, password) VALUES (?,?,?);"
+
+        try {
+            let con = await this.getConnection()
+
+            let [rows, fields] = await con.query(query, [name, email, password])
+
+            await this.endConnection()
+
+            return 
+
+        } catch(exception) {
+            console.log("registerUserToDB threw an exception")
             console.log(exception)
         }
     }

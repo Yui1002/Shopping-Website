@@ -5,9 +5,10 @@
  * This class wraps the user response into an http status and response object
  */
 class UserResponse {
-    constructor(httpStatus, responseObj) {
+    constructor(httpStatus, responseObj, errorType) {
         this._httpStatus = httpStatus
         this._response = responseObj
+        this._errorType = errorType
     }
 
     get httpStatus() {
@@ -16,6 +17,10 @@ class UserResponse {
 
     get response() {
         return this._response
+    }
+
+    get errorType() {
+        return this._errorType
     }
 
     /**
@@ -30,6 +35,10 @@ class UserResponse {
      */
     set status(status) {
         this._httpStatus = status
+    }
+
+    set errorType(errorType) {
+        this._errorType = errorType
     }
 }
 

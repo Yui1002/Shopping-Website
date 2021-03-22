@@ -6,12 +6,17 @@ import jwt from 'jsonwebtoken'
  * This class holds the user data in an object that can be passed around easily
  */
 class UserModel {
-    constructor(email, password) {
+    constructor(name, email, password) {
+        this._name = name
         this._email = email
         this._password = password
         this._isValid = false
         this._userId = -1
         this.token = ''
+    }
+
+    get name() {
+        return this._name
     }
 
     get email() {
@@ -28,6 +33,10 @@ class UserModel {
 
     get getJwtToken() {
         return this.token
+    }
+
+    set name(newName) {
+        this._name = newName
     }
 
     set email(newEmail) {
