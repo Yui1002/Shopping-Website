@@ -1,15 +1,13 @@
 'use strict';
 
-// When DOM is prepared, get all product data
-document.addEventListener('DOMContentLoaded', () => {
+// // When DOM is prepared, get all product data
+document.addEventListener('DOMContentLoaded', async () => {
 
-    const res = fetch('http://localhost:5000/addToCart')
-    .then(res => res.json())
-    .then(data => {
-        // console.log(data);
-        renderPurchaseProduct(data);
-        calc();
-    })
+    let response = await fetch('/cart/json')
+    let data = await response.json()
+    
+    renderPurchaseProduct(data)
+    calc()
 });
 
 function renderPurchaseProduct(data) {
@@ -17,23 +15,25 @@ function renderPurchaseProduct(data) {
     let numId = 1;
     let priceId = 1;
     let totalId = 1;
-    for(let i = 0; i < data.Product.length; i++) {
+    for(let i = 0; i < data.length; i++) {
+
+        // Container that wraps 
         const purchaseContent = document.createElement('div');
         purchaseContent.classList.add('purchase-content');
         
         const purchaseImg = document.createElement('img');
-        purchaseImg.src = `${data.Product[i].image}`;
+        purchaseImg.src = `/images/${data[i].image}`;
         purchaseImg.classList.add('purchase-img');
     
         const purchaseProduct = document.createElement('div');
         purchaseProduct.classList.add('purchase-product');
     
         const productName = document.createElement('h4');
-        productName.textContent = `${data.Product[i].name}`;
+        productName.textContent = `${data[i].name}`;
         const productPrice = document.createElement('p');
         productPrice.classList.add('product-price');
         productPrice.setAttribute('id', 'priceId_'+priceId++)
-        productPrice.textContent = `${data.Product[i].price}`;
+        productPrice.textContent = `${data[i].price}`;
         const removeBtn = document.createElement('p');
         removeBtn.textContent = 'remove';
         removeBtn.classList.add('remove');
@@ -44,8 +44,7 @@ function renderPurchaseProduct(data) {
         const sizeInfo = document.createElement('select');
         sizeInfo.classList.add('.size-info');
         sizeInfo.required = true;
-        // sizeInfo.defaultSelected = `${data.Product[i].size}`
-        // sizeInfo.options[`${data.Product[i].size}`].defaultSelected = true;
+    
         const selectSize = document.createElement('option');
         selectSize.textContent = 'Select Size';
         const option1 = document.createElement('option');
@@ -73,7 +72,7 @@ function renderPurchaseProduct(data) {
         const productSubtotal = document.createElement('p');
         productSubtotal.classList.add('sub-total');
         productSubtotal.setAttribute('id', 'totalId_'+totalId++)
-        const productCalc = `${data.Product[i].price}`;
+        const productCalc = `${data[i].price}`;
         // const productCalc = productQuantity.value * productPrice;
         productSubtotal.textContent = productCalc;
         
@@ -93,7 +92,7 @@ function renderSize(data) {
     let i = 0;
     const select = document.querySelectorAll('select');
     select.forEach(e => {
-        e.selectedIndex = `${data.Product[i].size}`;
+        e.selectedIndex = `${data[i].size}`;
         i++;
     })
 }
@@ -102,7 +101,7 @@ function renderQuantity(data) {
     let i = 0;
     const input = document.querySelectorAll('input');
     input.forEach(e => {
-        e.value = `${data.Product[i].quantity}`;
+        e.value = `${data[i].quantity}`;
         i++;
     })
 }
@@ -159,6 +158,7 @@ function removeBtnClick(e) {
     const clickedRemoveIndex = e.currentTarget.dataset['index'];
     const getclickedRemoveBtn = document.querySelector(`[data-index='${clickedRemoveIndex}']`);
     const removedProduct = getclickedRemoveBtn.previousSibling.previousSibling.textContent;
+    
 
     for(let i = 0; i < removeBtn.length; i++) {
         let button = removeBtn[i];
@@ -169,13 +169,18 @@ function removeBtnClick(e) {
         });
     }
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('DELETE', '/addToCart', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        // console.log(this.responseText);
-    };
-    xhr.send(`name=${removedProduct}`);
+    const obj = {
+        name: removedProduct
+    }
+
+    let response = fetch('/cart', {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+    })
+    
 
 }
 

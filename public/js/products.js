@@ -1,23 +1,20 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', (data) => {
-    let queryString = window.location.search;
-
-    if(queryString) {
-        queryString = queryString.substring(4);
-    }
-    const idElemSplit1 = queryString;
+document.addEventListener('DOMContentLoaded', async () => {
     
-    fetch(`http://localhost:5000/getCurrent/${idElemSplit1}`)
-    .then(res => res.json())
-    .then(data => {
-        // console.log(data);
-        renderCurrentProductHtml(idElemSplit1, data)
-    });
+    const url = window.location.href
+    const subUrl = url.split('/')[5].split('=')[1]
+    const productApiUrl = `/allproducts/products/json/${subUrl}`
+
+    let response = await fetch(productApiUrl)
+    let data = await response.json()
+    console.log(data);
+
+    renderCurrentProductHtml(subUrl, data)
 });
 
 
-function renderCurrentProductHtml(idElemSplit1, data) {
+function renderCurrentProductHtml(subUrl, data) {
 
     // Left Content
     const leftContent = document.createElement('div');
@@ -29,17 +26,17 @@ function renderCurrentProductHtml(idElemSplit1, data) {
     
     // Image
     const currentImg = document.createElement('img');
-    currentImg.src = `../images/product-${idElemSplit1}.jpg`;
+    currentImg.src = `/images/product-${subUrl}.jpg`;
     currentImg.classList.add('main-img');
-    currentImg.setAttribute('id', `img${idElemSplit1}`);
+    currentImg.setAttribute('id', `img${subUrl}`);
     
     // Product Name & Price
     const currentProductName = document.createElement('h3');
-    currentProductName.textContent = `${data.Product[0].name}`;
-    currentProductName.setAttribute('id', `name${idElemSplit1}`)
+    currentProductName.textContent = `${data[0].name}`;
+    currentProductName.setAttribute('id', `name${subUrl}`)
     const currentProductPrice = document.createElement('p');
-    currentProductPrice.textContent = `$${data.Product[0].price}.00`;
-    currentProductPrice.setAttribute('id', `price${idElemSplit1}`)
+    currentProductPrice.textContent = `$${data[0].price}.00`;
+    currentProductPrice.setAttribute('id', `price${subUrl}`)
 
     // Select Size and Quantity
     const select = document.createElement('select');
@@ -80,34 +77,39 @@ function renderCurrentProductHtml(idElemSplit1, data) {
 
 }
 
-function addToCart() {
+async function addToCart() {
+
     const selectedValue = document.querySelector('select').selectedIndex;
     const selectedInput = document.querySelector('input').value;
-    console.log(selectedInput);
+
+    const url = window.location.href
+    const subUrl = url.split('/')[5].split('=')[1]
+    const routes = '/cart'
+
+    const img = document.getElementById(`img${subUrl}`).src.split('/')[4]
+    const name = document.getElementById(`name${subUrl}`).textContent;
+    const price = document.getElementById(`price${subUrl}`).textContent;
+
     if(selectedValue === 0 || parseInt(selectedInput) <= 0) {
         document.querySelector('.alert-log').textContent = 'Please select size and quantity';
         return;
     }
 
-    let queryString = window.location.search;
-    if(queryString) {
-        queryString = queryString.substring(4);
+    const obj = {
+        "img" : img,
+        "name" : name,
+        "price" : price
     }
 
-    const idElemSplit1 = queryString;
-    const img = document.getElementById(`img${idElemSplit1}`).src;
-    const name = document.getElementById(`name${idElemSplit1}`).textContent;
-    const price = document.getElementById(`price${idElemSplit1}`).textContent;
-    // const size = document.getElementById(`size${idElemSplit1}`)
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(obj)
+    }
+    
+    let response = fetch('/cart', params)
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/addToCart', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        // do something to response
-        console.log(this.responseText);
-    };
-    xhr.send(`image=${img}&name=${name}&price=${price}&size=${selectedValue}&quantity=${selectedInput}`);
-
-    window.location.href = `payment.html?id=${idElemSplit1}`;
+    window.location.href = routes
 }

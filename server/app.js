@@ -6,12 +6,14 @@ import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser'
-import Routes from './Routes.js'
+import Routes from './Routes/Routes.js'
+import ProductRoutes from './Routes/ProductRoutes.js'
 import flash from 'connect-flash'
 import session from 'express-session'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const routes = new Routes();
+const productRoutes = new ProductRoutes()
 
 dotenv.config();
 const app = express();
@@ -36,14 +38,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 // ルーティング
-// app.get('/getAll', (req, res) => {
-//     const db = dbService.getDbServiceInstance();
-//     const result = db.getAllData();
-    
-//     result
-//     .then(data => res.json({Product: data}))
-//     .catch(err => console.log(err));
-// });
+
 
 // app.get('/getCurrent/:id', (req, res) => {
 //     const id = req.params.id;
@@ -111,8 +106,8 @@ app.set('views', 'views');
 //     .catch(err => console.log(err));
 // })
 
-// // Login Router
 // // app.get('/login', (req, res) => {
+    // // Login Router
 // //     res.render('../views/login.ejs')
 // // });
 
@@ -125,6 +120,7 @@ app.set('views', 'views');
 //  * Routes are stored in Routes.js
 //  */
 routes.applyRouting(app)
+productRoutes.applyRouting(app)
 
 // app.post('/register', (req, res) => {
 //     // console.log(req.body);

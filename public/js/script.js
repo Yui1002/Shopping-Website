@@ -1,19 +1,19 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:5000/getAll')
-    .then(res => res.json())
-    .then(data => {
-        // console.log(data);
-        if(location.href === "http://localhost:5000/products.html") {
-            renderAllProductsHtml(data);
-        }
-    });
+document.addEventListener('DOMContentLoaded', async () => {
+
+    const allProductsUrl = '/allproducts/json'
+    
+    let response = await fetch(allProductsUrl)
+    let data = await response.json()
+    console.log(data);
+
+    renderAllProductsHtml(data)
 });
 
 function renderAllProductsHtml(data) {
     let arr = [];
-    for(let i = 0; i < data.Product.length; i++) {
+    for(let i = 0; i < data.length; i++) {
         const productContainer = document.createElement('div');
         productContainer.classList.add('image-1');
         
@@ -25,12 +25,12 @@ function renderAllProductsHtml(data) {
     const allProductContainer = document.querySelector('.allproducts-img');
     arr.forEach(e => {
         const img = document.createElement('img');
-        img.src = `../images/product-${data.Product[i].id}.jpg`;
+        img.src = `../images/product-${data[i].id}.jpg`;
         img.classList.add('image');
         const productName = document.createElement('h3');
-        productName.textContent = `${data.Product[i].name}`;
+        productName.textContent = `${data[i].name}`;
         const productPrice = document.createElement('p');
-        productPrice.textContent = `$${data.Product[i].price}.00`;
+        productPrice.textContent = `$${data[i].price}.00`;
         e.append(img, productName, productPrice);
         e.setAttribute('id', 'id_'+customId);
 
@@ -41,16 +41,20 @@ function renderAllProductsHtml(data) {
     })
 };
 
-function customIdClick(e) {
+async function customIdClick(e) {
 
-    // ユーザがクリックした製品のIDを取得
+    // // ユーザがクリックした製品のIDを取得
     const id = document.getElementById(this.id);
     const idElem = id.id;
     const idElemSplit = idElem.split('_');
     const idElemSplit1 = idElemSplit[1];
-    console.log(idElemSplit1);
 
-    window.location.href = `product_detail.html?id=${idElemSplit1}`;
+    const productUrl = `allproducts/products/id=${idElemSplit1}`
+    console.log(productUrl);
+
+    window.location.href = productUrl;
+
+    // Moving to products.js
 }
 
 

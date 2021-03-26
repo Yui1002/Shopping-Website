@@ -1,8 +1,8 @@
 'use strict'
 
-import UserController from './Controllers/UserController.js'
-import HttpConstants from './Models/HttpConstants.js'
-import ErrorConstants from './Models/ErrorConstants.js'
+import UserController from '../Controllers/UserController.js'
+import HttpConstants from '../Models/HttpConstants.js'
+import ErrorConstants from '../Models/ErrorConstants.js'
 
 /**
  * Class Routes
@@ -27,11 +27,11 @@ class Routes {
          * The repository executes db queries and manages db connections
          */
         app.route('/login').get((req, res) => {
-            res.render('../views/login.ejs')
+            res.render('../views/login.ejs', { title: 'Login' })
         });
 
         app.route('/register').get((req, res) => {
-            res.render('../views/register.ejs')
+            res.render('../views/register.ejs', { title: "Register" })
         })
 
         app.route('/login').post((async (req, res, next) => {
@@ -87,7 +87,7 @@ class Routes {
                 }) 
 
             } else if (response.errorType === ErrorConstants.ERROR_TYPE.ALREADY_REGISTERED) {
-                
+
                 res.render(registerPage, {
                     message: ErrorConstants.ERROR_TYPE.ALREADY_REGISTERED
                 })
