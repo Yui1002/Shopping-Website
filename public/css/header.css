@@ -1,0 +1,55 @@
+/* ヘッダー */
+.header {
+    background: radial-gradient(#fff, #ffd6d6);
+}
+
+.container {
+    max-width: 1300px;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+nav {
+    flex: 1;
+    text-align: right;
+}
+
+nav ul {
+    display: inline-block;
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #555;
+}
+
+p {
+    color: #555;
+}
+
+.cart-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.cart-num {
+    font-size: 14px;
+    color: #ff523b;
+    font-weight: bold;
+    position: relative;
+    top: 8px;
+    right: 8px;
+}

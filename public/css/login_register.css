@@ -1,0 +1,48 @@
+.login-form {
+    height: 340px;
+    background-color: #f0f0f0;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    margin-top: 100px;
+}
+
+.register-form {
+    height: 500px;
+}
+
+
+.login-form div {
+    height: 60px;
+    padding: 10px 0;
+}
+
+#name, #email, #password, #passwordConfirm {
+    width: 60%;
+    height: 100%;
+}
+
+.login-form button {
+    background-color: #2490D0;
+    color: #fff;
+    border: none;
+    margin-top: 30px;
+    width: 120px;
+    height: 30px;
+    padding: 20px, 30px;
+}
+
+.login-form span {
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.login-form a {
+    color: #2490D0;
+}
+
+.alert-danger {
+    font-size: 16px;
+    color: red;
+    text-align: center;
+}

@@ -1,0 +1,14 @@
+.sports_img {
+    max-width: 100%;
+    padding: 50px 0;
+}
+
+.featured_img {
+    display: flex;
+}
+
+.featured_img img,
+.latest_img img {
+    width: 33%;
+    padding: 40px;
+}
