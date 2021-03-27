@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="/css/order.css">
 </head>
 <body>
     <div class="header">
@@ -49,17 +50,17 @@
                             <tbody>
                                 <tr>
                                     <label for="shipping-method">Shipping method</label>
-                                    <td><input type="radio" id="shipping-method"><span>Unspecified</span></td>
+                                    <td><input type="radio" id="shipping-method" name="shipping-method"><span>Unspecified</span></td>
                                     <td>Scheduled to be shipped<br> from March 4th to March 6th</td>
                                     <td>$2.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" id="shipping-method"><span>Scheduled</span></td>
+                                    <td><input type="radio" id="shipping-method" name="shipping-method"><span>Scheduled</span></td>
                                     <td>Please select the dates</td>
                                     <td>$2.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" id="shipping-method"><span>Same-day</span></td>
+                                    <td><input type="radio" id="shipping-method" name="shipping-method"><span>Same-day</span></td>
                                     <td>At the earliest March 3rd, 6pm</td>
                                     <td>$5.00</td>
                                 </tr>
@@ -70,28 +71,29 @@
                             <tbody>
                                 <tr>
                                     <label for="payment-method" id="payment-method">Payment method</label>
-                                    <td><input type="radio" id="payment-method"><span>Credit card</span></td>
+                                    <td><input type="radio" id="payment-method" name="payment-method"><span>Credit card</span></td>
                                     <td>$0.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" id="payment-method"><span>Cash on delivery</span></td>
+                                    <td><input type="radio" id="payment-method" name="payment-method"><span>Cash on delivery</span></td>
                                     <td>$0.00</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" id="payment-method"><span>LINE Pay</span></td>
+                                    <td><input type="radio" id="payment-method" name="payment-method"><span>LINE Pay</span></td>
                                     <td>$0.00</td>
                                 </tr>
                             </tbody>
                         </table>
                     </ul>
                     <div class="purchase-btn">
-                        <a href="" class="btn">Purchase</a>
+                        <a href="/notification" class="btn">Confirmation</a>
                     </div>
                 </form>
             </div>
         </div>
-    <script src="script.js"></script>
-    <script src="products.js"></script>
-    <script src="payment.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/order.js"></script>
 </body>
 </html>

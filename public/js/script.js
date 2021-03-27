@@ -1,28 +1,26 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', async () => {
-
     const allProductsUrl = '/allproducts/json'
-    
+
     let response = await fetch(allProductsUrl)
     let data = await response.json()
-    console.log(data);
 
-    renderAllProductsHtml(data)
+    getAllProducts(data)
 });
 
-function renderAllProductsHtml(data) {
+function getAllProducts(data) {
     let arr = [];
     for(let i = 0; i < data.length; i++) {
-        const productContainer = document.createElement('div');
-        productContainer.classList.add('image-1');
+        const itemContainer = document.createElement('div');
+        itemContainer.classList.add('item');
         
-        arr.push(productContainer);
+        arr.push(itemContainer);
     }
     
     let i = 0;
     let customId = 1;
-    const allProductContainer = document.querySelector('.allproducts-img');
+    const allitemContainer = document.querySelector('.allproducts-img');
     arr.forEach(e => {
         const img = document.createElement('img');
         img.src = `../images/product-${data[i].id}.jpg`;
@@ -34,7 +32,7 @@ function renderAllProductsHtml(data) {
         e.append(img, productName, productPrice);
         e.setAttribute('id', 'id_'+customId);
 
-        allProductContainer.append(e);
+        allitemContainer.append(e);
         e.onclick = customIdClick;
         i++;
         customId++;
@@ -43,7 +41,6 @@ function renderAllProductsHtml(data) {
 
 async function customIdClick(e) {
 
-    // // ユーザがクリックした製品のIDを取得
     const id = document.getElementById(this.id);
     const idElem = id.id;
     const idElemSplit = idElem.split('_');

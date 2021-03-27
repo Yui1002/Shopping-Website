@@ -31,6 +31,7 @@ class ProductController {
         let response = await this.Manager.removeItemsFromCart(items)
         return response
     }
+
 }
 
 export default ProductController

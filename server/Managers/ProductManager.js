@@ -32,6 +32,7 @@ class ProductManager {
         let response = await this.Repository.removeItemsFromCart(items)
         return response
     }
+
 }
 
 export default ProductManager

@@ -11,6 +11,8 @@ class ProductRoutes {
         const allProductPage = '../views/allProducts.ejs'
         const selectedProductPage = '../views/product.ejs'
         const cartPage = '../views/cart.ejs'
+        const orderPage = '../views/order.ejs'
+        const notificationPage = '../views/notification.ejs'
 
         app.route('/').get((req, res) => {            
             res.render(homePage, { title: "Home" });
@@ -57,6 +59,14 @@ class ProductRoutes {
             
             let response = await this.ProductController.removeItemsFromCart(removedItems)
         });
+
+        app.route('/payment').get((req, res) => {
+            res.render(orderPage, { title: "Order"})
+        })
+
+        app.route('/notification').get((req, res) => {
+            res.render(notificationPage, { title: "Notification" })
+        })
     }
 
 

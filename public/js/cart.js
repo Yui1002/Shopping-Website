@@ -1,10 +1,15 @@
 'use strict';
 
+const cartItemNum = document.querySelector('.cart-num')
+const cartIcon = document.getElementById('cartIcon');
+
 // // When DOM is prepared, get all product data
 document.addEventListener('DOMContentLoaded', async () => {
 
     let response = await fetch('/cart/json')
     let data = await response.json()
+
+    cartItemNum.textContent = data.length
     
     renderPurchaseProduct(data)
     calc()
@@ -154,6 +159,7 @@ function isEmpty() {
 
 
 function removeBtnClick(e) {
+    
     const removeBtn = document.getElementsByClassName('remove');
     const clickedRemoveIndex = e.currentTarget.dataset['index'];
     const getclickedRemoveBtn = document.querySelector(`[data-index='${clickedRemoveIndex}']`);
@@ -167,7 +173,10 @@ function removeBtnClick(e) {
             btnClicked.parentElement.parentElement.remove();
             isEmpty();
         });
+
+        cartItemNum.textContent = removeBtn.length - 1
     }
+
 
     const obj = {
         name: removedProduct
@@ -180,7 +189,19 @@ function removeBtnClick(e) {
         },
         body: JSON.stringify(obj)
     })
-    
-
 }
+
+
+cartIcon.addEventListener('click', () => {
+    window.location.href = '/cart'
+})
+
+cartItemNum.addEventListener('click', () => {
+    window.location.href = '/cart'
+})
+
+
+
+
+
 

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let response = await fetch(productApiUrl)
     let data = await response.json()
-    console.log(data);
 
     renderCurrentProductHtml(subUrl, data)
 });
@@ -77,7 +76,7 @@ function renderCurrentProductHtml(subUrl, data) {
 
 }
 
-async function addToCart() {
+async function addToCart(data) {
 
     const selectedValue = document.querySelector('select').selectedIndex;
     const selectedInput = document.querySelector('input').value;
